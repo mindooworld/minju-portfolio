@@ -179,7 +179,7 @@
     // 1. 왼쪽: 프로필 영역
     .left_box {
       @include flex(flex-start, center);
-      gap: 20px;
+      gap: 16px;
 
       .img_area {
         width: 80px;

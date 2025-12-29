@@ -1,0 +1,23 @@
+// src/styles/_variables.scss
+
+// 1. Color System
+$c-primary: #48ec95;       // 메인 포인트 컬러
+$c-sub-primary: #3bd7ca;      //서브컬러
+$c-bg: #25262b;       // bg
+$c-card-bg--1: #2f3136; // 카드 bg1
+$c-card-bg--2: #474a52; // 카드 bg2
+$c-black: #000;
+$c-white: #fff;
+$c-c2: #c2c2c2;
+$c-888: #888;
+
+// 2. Typography (폰트)
+$font-main: 'Inter', 'Pretendard', sans-serif;
+
+// 3. Layout (사이즈)
+$pc-inner: 1440px;      // PC 내부 컨텐츠 최대 너비
+$mo-inner: 100%;        // 모바일은 꽉 채우되 패딩으로 조절
+$mo-padding: 20px;      // 모바일 좌우 여백 (국룰)
+
+// 4. Z-index (층계)
+$z-modal: 999;          // 팝업

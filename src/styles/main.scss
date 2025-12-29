@@ -1,0 +1,6 @@
+// src/styles/main.scss
+/* Pretendard 폰트 전체 두께(100~900) 불러오기 */
+@use './reset';
+@use './pc-index';
+
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css");

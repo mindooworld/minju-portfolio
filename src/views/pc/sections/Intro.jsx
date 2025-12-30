@@ -5,10 +5,9 @@ import ArrowIcon from '@/assets/images/arrow.svg';
 
 const Intro = () => {
   // 뱃지에 들어갈 텍스트 (5개)
-  const badges = ['React', 'Vue.js', 'SCSS', 'Figma', 'Git'];
+  const badges = ['Vue.js', 'React', 'SCSS', 'Figma', 'Git', 'Photoshop'];
   const handleGithub = () => {
-    // 여기에 본인 깃허브 주소를 넣으세요!
-    window.open('https://github.com/shinminju', '_blank');
+    window.open('https://github.com/mindooworld', '_blank');
   };
 
   return (

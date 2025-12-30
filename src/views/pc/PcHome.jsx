@@ -1,13 +1,14 @@
 import React from 'react';
 import Intro from '@/views/pc/sections/Intro';
-import AboutMe from '@/views/pc/sections/AboutMe';
+import Profile from '@/views/pc/sections/Profile';
+import Process from '@/views/pc/sections/Process';
 
 const PcHome = () => {
   return (
     <div className="pc-wrap">
         <Intro />
-        <AboutMe 
-        />
+        <Profile />
+        <Process />
     </div>
   );
 };

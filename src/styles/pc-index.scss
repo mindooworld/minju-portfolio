@@ -5,13 +5,67 @@
 // Title
 .section-title {
   text-align: left;
-  padding-top:80px;
 
   h3 {
-    // 믹스인 사용: 40px, Bold, 행간 1.2, 검정색
-    @include font(36px, 700, 1.2, $c-white);
-    margin-bottom: 16px;
+    @include font(36px, 600, 1.2, $c-white);
+    margin-bottom: 30px;
   }
+
+  .title-row {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-bottom: 16px;
+
+    .tab-buttons {
+      display: flex;
+      gap: 8px;
+
+      .tab-btn {
+        padding: 8px 20px;
+        border-radius: 20px;
+        border: 1px solid #ddd;
+        background: #fff;
+        font-size: 14px;
+        font-weight: 500;
+        color: #666;
+        cursor: pointer;
+        transition: all 0.2s;
+
+        &:hover {
+          background: #f5f5f5;
+        }
+
+        // 활성화된 탭 스타일
+        &.active {
+          background: #333; // 메인 컬러로 변경하세요
+          color: #fff;
+          border-color: #333;
+          font-weight: 600;
+        }
+      }
+    }
+  }
+}
+
+// layout
+.layout {
+  width: 100%;
+  @include px(180px);
+  padding-top: 80px;
+}
+
+.card,
+.skill-item,
+.profile_contents,
+.skill-group-box,
+.accordion_header,
+.accordion_body,
+.accordion_panel,
+.left_box,
+.center_box,
+.body-cont {
+  transition: all 0.4s ease-out;
 }
 
 // Intro
@@ -19,7 +73,7 @@
 .intro_wrap {
   width: 100%;
   height: 496px;
-  padding: 0 180px;
+  @include px(180px);
   position: relative;
   overflow: hidden;
   background: linear-gradient(-45deg, #48ec95, #3bd7ca, #48ec95);
@@ -53,7 +107,7 @@
       gap: 8px;
 
       .badge {
-        padding: 10px 20px;
+        @include padding(10px, 20px);
         background: $c-black;
         border-radius: 50px;
 
@@ -74,7 +128,7 @@
       overflow: hidden;
       transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
       cursor: pointer;
-      opacity:0.8;
+      opacity: 0.8;
 
       .btn_text {
         @include font(20px, 600, 1, inherit);
@@ -117,9 +171,10 @@
           margin-left: 4px;
           margin-right: 10px;
         }
+
         .arrow-icon {
-          width:30px;
-          height:30px;
+          width: 30px;
+          height: 30px;
           opacity: 1;
         }
       }
@@ -141,30 +196,26 @@
   }
 }
 
-// About Me
+// profile
 
-.about_wrap {
-  width: 100%;
-  padding:0 180px;
-
+.profile_wrap {
   .accordion_panel {
     width: 100%;
     max-width: 1368px; // 최대 너비 제한
     background-color: $c-card-bg--1;
     border-radius: 16px;
-    overflow: hidden; // 둥근 모서리 유지
+    overflow: hidden;
     transition: all 0.3s ease;
 
     // 활성화(열림) 상태 스타일
     &.active {
       .accordion_header .right_box .arrow_icon {
-        transform: rotate(180deg); // 화살표 뒤집기
+        transform: rotate(180deg);
       }
-      
+
       .accordion_body {
-        max-height: 100%; // 내용이 보일 만큼 충분히 크게
-        opacity: 1;
-        padding-bottom: 40px; // 하단 여백 추가
+        grid-template-rows: 1fr;
+        padding-bottom: 40px;
       }
     }
   }
@@ -172,71 +223,85 @@
   // 아코디언 헤더
   .accordion_header {
     width: 100%;
-    padding: 36px 24px;
+    @include padding(24px, 36px);
     cursor: pointer;
     @include flex(space-between, center); // 양끝 정렬
 
-    // 1. 왼쪽: 프로필 영역
-    .left_box {
+    .profile-cont {
       @include flex(flex-start, center);
-      gap: 16px;
+      gap: 30px;
 
-      .img_area {
-        width: 80px;
-        height: 80px;
-        border-radius: 50%;
-        overflow: hidden;
-        
-        
-        img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-      }
-
-      .info_text {
-        .job_title {
-          @include font(14px, 500, 1.2, $c-black);
-          display: block;
-          margin-bottom: 4px;
-        }
-        h3 {
-          @include font(24px, 700, 1.2, $c-black);
-          margin-bottom: 8px;
-        }
-        .badges {
-          @include flex(flex-start, center);
-          gap: 6px;
-          
-          span {
-            padding: 4px 10px;
-            background: #f0f0f0;
-            border-radius: 4px;
-            @include font(12px, 500, 1, $c-black);
-          }
-        }
-      }
-    }
-
-    // 2. 가운데: 정보 리스트 (DL)
-    .center_box {
-      flex: 1; // 남은 공간 차지
-      padding: 0 60px; // 좌우 여백으로 위치 조절
-
-      dl {
+      // 1. 왼쪽: 프로필 영역
+      .left_box {
         @include flex(flex-start, center);
-        gap: 40px; // 항목 간 간격
+        gap: 16px;
 
-        .row {
-          text-align: left;
-          
-          dt {
-            @include font(12px, 500, 1.5, $c-c2);
-            margin-bottom: 4px;
+        .img_area {
+          width: 80px;
+          height: 80px;
+          border-radius: 50%;
+          overflow: hidden;
+
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
           }
-          dd {
-            @include font(16px, 600, 1.2, $c-white);
+        }
+
+        .info_text {
+          h3 {
+            @include font(24px, 700, 1.2, $c-white);
+            margin-bottom: 8px;
+          }
+
+          .badges {
+            @include flex(flex-start, center);
+            gap: 10px;
+
+            span {
+              @include padding(2px, 8px);
+              border-radius: 4px;
+              @include font(14px, 500);
+              line-height: 18px;
+
+              &:first-child {
+                background-color: rgba(72, 236, 149, 0.1);
+                color: $c-primary;
+              }
+
+              &:last-child {
+                background-color: rgba(59, 215, 202, 0.1);
+                color: $c-sub-primary;
+              }
+            }
+          }
+        }
+      }
+
+      // 2. 가운데: 정보 리스트 (DL)
+      .center_box {
+        border-left: 1px solid rgba(255, 255, 255, 0.1);
+        padding-left: 30px;
+
+        dl {
+          @include flex(flex-start, flex-start, column);
+          gap: 10px;
+
+          .row {
+            @include flex(flex-start, center);
+            gap: 60px;
+
+            dt {
+              @include font(16px, 500, 1.5, $c-c2);
+              width: 70px;
+              min-width: 70px;
+            }
+
+            dd {
+              @include font(16px, 600, 1.2, $c-white);
+            }
           }
         }
       }
@@ -246,41 +311,279 @@
     .right_box {
       .arrow_icon {
         display: block;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: #f5f5f5;
+        width: 32px;
+        height: 32px;
+        border-radius: 4px;
+        background: rgba(255, 255, 255, 0.1);
         @include flex(center, center);
-        color: $c-black;
-        transition: transform 0.3s ease; // 회전 애니메이션
+        transition: transform 0.3s ease;
 
         &:hover {
-          background: $c-white; // 마우스 올리면 색상 변경
-          color: $c-white;
+          opacity: 0.6;
         }
       }
     }
   }
 
-  // --- 바디 (숨겨진 영역) ---
+  // --- body (숨겨진 영역) ---
   .accordion_body {
-    max-height: 0; // 평소에는 높이 0 (숨김)
-    opacity: 0;
-    overflow: hidden;
-    transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); // 부드러운 슬라이드
+    display: grid;
+    // 2. 평소에는 높이를 0(0fr)으로 찌그러뜨려 놓음
+    grid-template-rows: 0fr;
+    // 3. grid-template-rows 속성이 변할 때 애니메이션 작동
+    transition: grid-template-rows 0.3s ease-in-out;
 
     .body_inner {
-      padding: 0 40px;
-      border-top: 1px solid $c-white; // 구분선
-      padding-top: 40px;
+      @include px(36px);
+      padding-top: 12px;
+      overflow: hidden; // 넘치는 내용 숨김
+      min-height: 0;
 
-      h4 {
-        @include font(20px, 700, 1.5, $c-black);
-        margin-bottom: 16px;
-      }
-      p {
-        @include font(16px, 400, 1.6, $c-black);
+      .body-cont {
+        +.body-cont {
+          margin-top: 36px;
+        }
+
+        h3 {
+          @include font(24px, 700, 1.2, $c-white);
+          margin-bottom: 30px;
+        }
+
+        // about me
+        .card-list {
+          @include flex(center, center);
+          gap: 24px;
+          align-items: stretch;
+
+          .card {
+            flex: 1;
+            background-color: $c-card-bg--2;
+            @include padding(20px, 24px);
+            border-radius: 16px;
+
+            &:hover {
+              transform: translateY(-3px);
+            }
+
+            .icon {
+              height: 40px;
+              width: 40px;
+              display: inline-block;
+              background-color: rgba(255, 255, 255, 0.1);
+              @include flex(center, center);
+              border-radius: 50%;
+              margin-bottom: 20px;
+            }
+
+            >h4 {
+              @include font(18px, 600, 1.2, $c-white);
+              padding-bottom: 16px;
+            }
+
+            >p {
+              @include font(14px, 400, 1.5, $c-white);
+            }
+          }
+        }
+
+        // skills
+        .skills-grid {
+          @include flex(flex-start, center, column);
+          gap: 24px;
+          width: 100%;
+
+          .skill-group-box {
+            width: 100%;
+
+            h4 {
+              @include font(18px, 500, 1, $c-c2);
+              margin-bottom: 16px;
+            }
+
+            // 그룹 내부의 바 차트 리스트
+            .group-list {
+              @include flex(flex-start, center);
+              gap: 24px;
+              width: 100%;
+
+              .skill-item {
+                @include flex(flex-start, flex-start, column);
+                gap: 20px;
+                background-color: $c-card-bg--2;
+                border-radius: 16px;
+                @include padding(20px, 24px);
+                width: 100%;
+
+                &:hover {
+                  transform: translateY(-3px);
+                }
+
+                .skill-info {
+                  @include flex(flex-start, center);
+                  font-weight: 500;
+                  gap: 10px;
+
+                  .icon {
+                    @include flex(center, center);
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 50%;
+                    background-color: $c-white;
+                  }
+
+                  .label {
+                    @include font(18px, 600, 1.2, $c-white);
+                  }
+
+                  .percent-num {
+                    font-size: 16px;
+                  }
+                }
+
+                // 바 차트 배경 (트랙)
+                .bar-track {
+                  width: 100%;
+                  height: 12px;
+                  background-color: #686C79;
+                  border-radius: 12px;
+                  overflow: hidden;
+
+                  // 차오르는 색상 바
+                  .bar-fill {
+                    height: 100%;
+                    background-color: $c-primary;
+                    border-radius: 10px;
+                    transition: width 1.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+
+                    &.design {
+                      background-color: $c-sub-primary;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     }
+  }
+}
+
+// work process
+
+.process_wrap {
+  // (여백 등 필요한 설정)
+
+  .process-cont {
+    display: grid;
+    // 카드 4개를 가로로 배치 (1fr 4번 반복)
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+
+    // 탭 바뀔 때 부드럽게 나타나는 효과 (선택사항)
+    animation: fadeIn 0.5s ease-out;
+
+    // 모바일 반응형 (768px 이하에선 2개씩, 더 작으면 1개씩)
+    @media (max-width: 1024px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr;
+    }
+
+    .process-card {
+      background: #fff; // 카드 배경색
+      padding: 32px 24px;
+      border-radius: 16px;
+      border: 1px solid #eee;
+      text-align: center; // 가운데 정렬
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+      &:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+      }
+
+      .icon-box {
+        width: 60px;
+        height: 60px;
+        margin: 0 auto 20px;
+        background: #f4f6f8;
+        border-radius: 50%;
+
+        // 1. 이미지를 겹치기 위한 기준점 설정
+        position: relative;
+        // (flex 관련 속성은 지우거나 주석 처리해주세요 - position absolute와 충돌)
+        // display: flex; justify-content: center; align-items: center;
+
+        // 2. 두 이미지 공통 스타일
+        img {
+          position: absolute; // 겹치기 위해 절대 좌표 사용
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%); // 정중앙 배치
+          width: 32px;
+          height: auto;
+          transition: opacity 0.3s ease; // 부드러운 전환 효과
+
+          // 3. 초기 상태 설정
+          &.icon-default {
+            opacity: 1; // 기본 아이콘은 보이고
+          }
+
+          &.icon-hover {
+            opacity: 0; // 호버 아이콘은 투명하게 숨김
+          }
+        }
+      }
+
+      &:hover {
+        // 카드는 위로 살짝 뜨고 (기존 코드)
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+
+        // 아이콘 박스 안의 이미지 투명도를 반대로 뒤집음
+        .icon-box {
+          .icon-default {
+            opacity: 0; // 기본은 숨기고
+          }
+
+          .icon-hover {
+            opacity: 1; // 호버를 보여줌
+          }
+        }
+
+        // (선택사항) 아이콘 박스 배경색도 바꾸고 싶다면?
+        // .icon-box { background: #e8f0fe; }
+      }
+
+      h4 {
+        font-size: 20px;
+        font-weight: 700;
+        margin-bottom: 12px;
+        color: #333;
+      }
+
+      p {
+        font-size: 15px;
+        color: #666;
+        line-height: 1.5;
+        word-break: keep-all; // 한글 단어 잘림 방지
+      }
+    }
+  }
+}
+
+// 페이드인 애니메이션 키프레임
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

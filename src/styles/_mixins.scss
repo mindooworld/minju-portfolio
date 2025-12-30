@@ -25,6 +25,35 @@
   transform: translate(-50%, -50%);
 }
 
+// 좌우 패딩 한 번에 (padding-x)
+@mixin px($val) {
+  padding-inline:$val;
+}
+
+// 상하 패딩 한 번에 (padding-y)
+@mixin py($val) {
+  padding-block:$val;
+}
+
+@mixin padding($top, $right: null, $bottom: null, $left: null) {
+  // 값이 1개일 때 (전체)
+  @if $right == null {
+    padding: $top;
+  }
+  // 값이 2개일 때 (상하, 좌우)
+  @else if $bottom == null {
+    padding: $top $right;
+  }
+  // 값이 3개일 때 (상, 좌우, 하)
+  @else if $left == null {
+    padding: $top $right $bottom;
+  }
+  // 값이 4개일 때 (상, 우, 하, 좌)
+  @else {
+    padding: $top $right $bottom $left;
+  }
+}
+
 // 4. Mobile Layout (반응형 짤 때)
 @mixin mobile {
   @media (max-width: 768px) {

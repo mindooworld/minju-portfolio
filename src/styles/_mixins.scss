@@ -16,6 +16,15 @@
   line-height: $lh;
   color: $color;
 }
+@mixin font2($size, $weight: 400, $color: inherit) {
+  font-size: $size;
+  font-weight: $weight;
+  color: $color;
+}
+@mixin font3($weight: 400, $color: inherit) {
+  font-weight: $weight;
+  color: $color;
+}
 
 // 3. Absolute Center (팝업 띄울 때 필수)
 @mixin pos-center {

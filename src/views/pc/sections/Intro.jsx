@@ -1,5 +1,5 @@
 // src/views/pc/sections/Intro.jsx
-import React from 'react';
+import React, { useState } from 'react';
 import githubIcon from '@/assets/images/git-icon.svg';
 import ArrowIcon from '@/assets/images/arrow.svg';
 

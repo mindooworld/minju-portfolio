@@ -2,46 +2,84 @@
 @use "@/styles/_variables.scss" as *;
 @use "@/styles/_mixins.scss" as *;
 
+// 공통
 // Title
 .section-title {
   text-align: left;
+  margin-bottom: 30px;
 
   h3 {
     @include font(36px, 600, 1.2, $c-white);
-    margin-bottom: 30px;
   }
 
   .title-row {
-    display: flex;
-    align-items: center;
+    @include flex(space-between, center);
     gap: 30px;
     margin-bottom: 16px;
 
+    // tab
     .tab-buttons {
       display: flex;
-      gap: 8px;
+      border-radius: 30px;
+      background-color: #42444B;
 
       .tab-btn {
-        padding: 8px 20px;
-        border-radius: 20px;
-        border: 1px solid #ddd;
-        background: #fff;
-        font-size: 14px;
-        font-weight: 500;
-        color: #666;
+        max-width: 110px;
+        min-width: 110px;
+        height: 36px;
+        max-height: 36px;
+        @include font(16px, 400, 1, $c-c2);
         cursor: pointer;
-        transition: all 0.2s;
+        transition: all 0.4s;
 
         &:hover {
-          background: #f5f5f5;
+          opacity: 0.6;
         }
 
         // 활성화된 탭 스타일
         &.active {
-          background: #333; // 메인 컬러로 변경하세요
-          color: #fff;
-          border-color: #333;
-          font-weight: 600;
+          background-color: $c-primary;
+          @include font3(600, $c-black);
+          border-radius: 30px;
+        }
+      }
+    }
+
+    // ★ 네비게이션 버튼 스타일
+    .nav-buttons {
+      display: flex;
+      gap: 12px;
+
+      .nav-btn {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background-color: rgba(255, 255, 255, 0.1);
+        @include flex(center, center);
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        img {
+          width: 24px; // 아이콘 크기 조절
+          height: auto;
+          display: block;
+          transition: transform 0.3s ease;
+        }
+
+        &.prev img {
+          transform: rotate(90deg);
+        }
+
+        &.next img {
+          transform: rotate(-90deg);
+        }
+
+        &:hover {
+          opacity: 0.6;
+
+          img {
+            filter: brightness(0) invert(1);
+          }
         }
       }
     }
@@ -67,6 +105,211 @@
 .body-cont {
   transition: all 0.4s ease-out;
 }
+
+/* --- 모달 팝업 스타일 --- */
+.modal-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 9999; // 제일 위에 뜨게
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+  // 나타날 때 애니메이션 (선택)
+  animation: fadeIn 0.3s ease;
+
+  .modal-content {
+    width: 90%;
+    max-width: 1440px;
+    max-height: 90vh;
+    background-color: $c-card-bg--1;
+    border-radius: 16px;
+    position: relative;
+    overflow-y: auto;
+    overflow-y: auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    @media (max-width:1440px) {
+      max-width: 1200px;
+    }
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+   .detail-inner {
+      display: flex;
+      gap: 40px;
+      align-items: flex-start; 
+      position: relative;
+
+      .img-area {
+        flex: 1.5;
+        overflow: hidden;
+        
+        // 이미지가 길~쭉하게 들어가야 스크롤하는 맛이 나겠죠?
+        img {
+          width: 100%;
+          height: auto;
+          display: block;
+          + img {
+            margin-bottom:20px;
+          }
+        }
+      }
+
+      .text-area {
+        position: sticky;
+        top: 40px;
+
+        // 1. 닫기 버튼 스타일
+        .close-btn {
+          position: absolute;
+          top: -10px; 
+          right: 0;
+          background: none;
+          border: none;
+          cursor: pointer;
+          padding: 5px;
+          
+          img {
+            width: 24px; // 닫기 아이콘 크기
+            height: 24px;
+            display: block;
+            transition: transform 0.3s;
+          }
+          &:hover img {
+            transform: rotate(90deg);
+          }
+        }
+
+        .main-title {
+          font-size: 32px;
+          font-weight: 700;
+          margin-bottom: 10px;
+          padding-right: 40px; // 버튼 공간 확보
+        }
+        .main-desc {
+          font-size: 16px;
+          color: #666;
+          margin-bottom: 40px;
+          padding-bottom: 20px;
+          border-bottom: 1px solid #eee; // 구분선
+        }
+
+        // --- 상세 정보 섹션 스타일 ---
+        .detail-info-wrap {
+          display: flex;
+          flex-direction: column;
+          gap: 30px; // 각 섹션 사이 간격
+
+          &.type-overview {
+            .content-overview {
+              display: flex;
+              flex-direction: column;
+              gap: 12px; // 1번째 줄과 2번째 줄 사이 간격
+
+              .overview-row {
+                display: flex;
+                align-items: flex-start; // 텍스트 길어지면 위쪽 정렬
+                gap: 10px; // 뱃지와 텍스트 사이 간격
+
+                // 빨간 뱃지 스타일
+                .badge.point {
+                  flex-shrink: 0; // 뱃지 너비 줄어들지 않게 고정
+                  display: inline-block;
+                  padding: 4px 10px;
+                  border-radius: 4px;
+                  background-color: #ff0000;
+                  color: #fff;
+                  font-size: 12px;
+                  font-weight: 600;
+                  min-width: 80px; // 뱃지 너비 통일 (선택사항)
+                  text-align: center;
+                  margin-top: 2px; // 텍스트랑 높이 시각적 보정
+                }
+
+                // 설명 텍스트
+                .text {
+                  font-size: 15px;
+                  color: #555;
+                  line-height: 1.5;
+                  word-break: keep-all; // 한글 단어 끊김 방지
+                }
+              }
+            }
+          }
+
+          .info-item {
+            .info-header {
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              margin-bottom: 10px;
+
+              .label {
+                font-size: 18px;
+                font-weight: 700;
+                color: #333;
+              }
+              .badge {
+                display: inline-block;
+                padding: 4px 10px;
+                border-radius: 20px;
+                background-color: #ffebeb; // 연한 빨강 배경
+                color: #ff0000;          // 빨강 글씨
+                font-size: 12px;
+                font-weight: 600;
+              }
+            }
+
+            // 본문 텍스트 스타일
+            .info-text {
+              font-size: 15px;
+              color: #555;
+              line-height: 1.6;
+            }
+
+            // 리스트 스타일
+            .info-list {
+              display: flex;
+              flex-wrap: wrap;
+              gap: 8px;
+              
+              li {
+                padding: 6px 14px;
+                background-color: #f5f5f5;
+                border-radius: 6px;
+                font-size: 14px;
+                color: #444;
+                // 리스트 앞에 점 같은 거 안 생기게
+                list-style: none;
+              }
+            }
+          }
+        }
+      }
+    }
+    
+    // 모바일 대응
+    @media (max-width: 768px) {
+      padding: 24px;
+      .detail-inner {
+        flex-direction: column; // 위아래로 배치
+        gap: 20px;
+      }
+    }
+  }
+}
+
+// 페이드인 애니메이션
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+// 공통 end
 
 // Intro
 
@@ -201,7 +444,7 @@
 .profile_wrap {
   .accordion_panel {
     width: 100%;
-    max-width: 1368px; // 최대 너비 제한
+    max-width: 100%; // 최대 너비 제한
     background-color: $c-card-bg--1;
     border-radius: 16px;
     overflow: hidden;
@@ -223,9 +466,13 @@
   // 아코디언 헤더
   .accordion_header {
     width: 100%;
-    @include padding(24px, 36px);
+    @include padding(36px, 40px);
     cursor: pointer;
-    @include flex(space-between, center); // 양끝 정렬
+    @include flex(space-between, center);
+
+    @media (max-width: 1800px) {
+      @include padding(24px, 36px);
+    }
 
     .profile-cont {
       @include flex(flex-start, center);
@@ -328,15 +575,12 @@
   // --- body (숨겨진 영역) ---
   .accordion_body {
     display: grid;
-    // 2. 평소에는 높이를 0(0fr)으로 찌그러뜨려 놓음
     grid-template-rows: 0fr;
-    // 3. grid-template-rows 속성이 변할 때 애니메이션 작동
     transition: grid-template-rows 0.3s ease-in-out;
 
     .body_inner {
       @include px(36px);
-      padding-top: 12px;
-      overflow: hidden; // 넘치는 내용 숨김
+      overflow: hidden;
       min-height: 0;
 
       .body-cont {
@@ -358,8 +602,12 @@
           .card {
             flex: 1;
             background-color: $c-card-bg--2;
-            @include padding(20px, 24px);
+            @include padding(30px, 36px);
             border-radius: 16px;
+
+            @media (max-width: 1800px) {
+              @include padding(20px, 24px);
+            }
 
             &:hover {
               transform: translateY(-3px);
@@ -411,8 +659,12 @@
                 gap: 20px;
                 background-color: $c-card-bg--2;
                 border-radius: 16px;
-                @include padding(20px, 24px);
+                @include padding(30px, 36px);
                 width: 100%;
+
+                @media (max-width: 1919px) {
+                  @include padding(20px, 24px);
+                }
 
                 &:hover {
                   transform: translateY(-3px);
@@ -472,16 +724,11 @@
 // work process
 
 .process_wrap {
-  // (여백 등 필요한 설정)
-
   .process-cont {
     display: grid;
-    // 카드 4개를 가로로 배치 (1fr 4번 반복)
     grid-template-columns: repeat(4, 1fr);
     gap: 24px;
-
-    // 탭 바뀔 때 부드럽게 나타나는 효과 (선택사항)
-    animation: fadeIn 0.5s ease-out;
+    animation: fadeInUp 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 
     // 모바일 반응형 (768px 이하에선 2개씩, 더 작으면 1개씩)
     @media (max-width: 1024px) {
@@ -493,97 +740,213 @@
     }
 
     .process-card {
-      background: #fff; // 카드 배경색
-      padding: 32px 24px;
+      background-color: $c-card-bg--1;
+      @include padding(36px, 40px);
       border-radius: 16px;
-      border: 1px solid #eee;
-      text-align: center; // 가운데 정렬
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-align: left;
+      transition: transform 0.3s ease, background-color 0.3s ease;
 
-      &:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+      @media (max-width: 1800px) {
+        @include padding(24px, 36px);
       }
 
       .icon-box {
-        width: 60px;
-        height: 60px;
-        margin: 0 auto 20px;
-        background: #f4f6f8;
+        width: 36px;
+        height: 36px;
+        background-color: rgba(255, 255, 255, 0.1);
         border-radius: 50%;
-
-        // 1. 이미지를 겹치기 위한 기준점 설정
         position: relative;
-        // (flex 관련 속성은 지우거나 주석 처리해주세요 - position absolute와 충돌)
-        // display: flex; justify-content: center; align-items: center;
+        margin-bottom: 20px;
 
-        // 2. 두 이미지 공통 스타일
         img {
-          position: absolute; // 겹치기 위해 절대 좌표 사용
+          position: absolute;
           top: 50%;
           left: 50%;
-          transform: translate(-50%, -50%); // 정중앙 배치
-          width: 32px;
+          transform: translate(-50%, -50%);
+          width: 20px;
           height: auto;
-          transition: opacity 0.3s ease; // 부드러운 전환 효과
+          transition: opacity 0.3s ease;
 
-          // 3. 초기 상태 설정
           &.icon-default {
-            opacity: 1; // 기본 아이콘은 보이고
+            opacity: 1;
           }
 
           &.icon-hover {
-            opacity: 0; // 호버 아이콘은 투명하게 숨김
+            opacity: 0;
           }
         }
       }
 
       &:hover {
-        // 카드는 위로 살짝 뜨고 (기존 코드)
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+        transform: translateY(-5px) scale(1.02);
+        background-color: $c-card-bg--2;
 
-        // 아이콘 박스 안의 이미지 투명도를 반대로 뒤집음
         .icon-box {
           .icon-default {
-            opacity: 0; // 기본은 숨기고
+            opacity: 0;
           }
 
           .icon-hover {
-            opacity: 1; // 호버를 보여줌
+            opacity: 1;
           }
         }
 
-        // (선택사항) 아이콘 박스 배경색도 바꾸고 싶다면?
-        // .icon-box { background: #e8f0fe; }
+        h4 {
+          color: $c-white;
+        }
+
+        p {
+          color: $c-white;
+        }
       }
 
       h4 {
-        font-size: 20px;
-        font-weight: 700;
+        @include font(20px, 600, 1.2, #d0d0d0);
         margin-bottom: 12px;
-        color: #333;
       }
 
       p {
-        font-size: 15px;
-        color: #666;
+        font-size: 16px;
+        color: #a3a3a3;
         line-height: 1.5;
-        word-break: keep-all; // 한글 단어 잘림 방지
+        word-break: keep-all;
       }
     }
   }
 }
 
 // 페이드인 애니메이션 키프레임
-@keyframes fadeIn {
+@keyframes fadeInUp {
   from {
-    opacity: 0;
-    transform: translateY(10px);
+    opacity: 0.6;
+    transform: translateY(5px); // 아래에서 20px 내려간 상태
   }
 
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0); // 제자리로
+  }
+}
+
+// Portfolio
+
+.portfolio_wrap {
+
+  .section-title {
+    @include px(180px);
+    padding-top: 80px;
+  }
+
+  .portfolio-cont {
+    @include py(60px);
+    overflow: hidden;
+  }
+
+  .portfolio-swiper {
+    overflow: visible;
+
+    .swiper-wrapper {
+      transition-timing-function: ease-out;
+    }
+
+    .swiper-slide {
+      width: 18vw;
+      max-width: 350px;
+      min-width: 260px;
+      aspect-ratio: 3 / 4;
+      position: relative;
+      padding: 0 12px;
+
+      .inner-box {
+        width: 100%;
+        height: 100%;
+        border-radius: 20px;
+        overflow: hidden;
+        position: relative;
+        transform: scale(0.9);
+        transform-origin: center center;
+        transition: transform 0.4s ease-out, box-shadow 0.4s ease-out;
+
+        .img-box {
+          width: 100%;
+          height: 100%;
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%);
+            transition: filter 0.5s ease, transform 0.5s ease-out;
+          }
+        }
+
+        .hover-overlay {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          width: 100%;
+          background-color: $c-card-bg--1;
+          @include padding(16px, 20px);
+          transform: translateY(100%);
+          transition: transform 0.4s ease-out;
+          @include flex(flex-start, column);
+          text-align: left;
+
+          .text-wrap {
+            width: 100%;
+            color: $c-white;
+
+            h4 {
+              @include font(16px, 600, 1);
+              margin-bottom: 8px;
+            }
+
+            p {
+              margin-bottom: 16px;
+              @include font(13px, 400, 1.2, $c-c2)
+              // white-space: nowrap;
+              // overflow: hidden;
+              // text-overflow: ellipsis;
+            }
+
+            .view-btn {
+              display: inline-block;
+              @include padding(6px, 16px);
+              border-radius: 30px;
+              border:1px solid $c-primary;
+              @include font(12px, 400, 1, $c-primary);
+              transition: opacity 0.3s;
+
+              &:hover {
+                opacity: 0.8;
+              }
+            }
+          }
+        }
+      }
+
+      &.swiper-slide-active {
+        z-index: 10;
+
+        .inner-box {
+          transform: scale(1.25);
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+
+          .img-box img {
+            filter: grayscale(0%);
+          }
+
+          &:hover {
+            .img-box img {
+              transform: scale(1.1);
+            }
+
+            .hover-overlay {
+              transform: translateY(0);
+            }
+          }
+        }
+      }
+    }
   }
 }

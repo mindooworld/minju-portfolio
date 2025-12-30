@@ -37,33 +37,29 @@ const Process = () => {
     design: [
       {
         id: 1,
-        // icon: IconDesign1, // 기존 코드 삭제
-        iconDefault: IconDesign1,       // 기본 아이콘
-        iconHover: IconDesignOn1,   // 마우스오버 아이콘
+        iconDefault: IconDesign1,
+        iconHover: IconDesignOn1,
         title: "Analysis",
         text: "요구사항 분석 및 레퍼런스 리서치"
       },
       {
         id: 2,
-        // icon: IconDesign1, // 기존 코드 삭제
-        iconDefault: IconDesign2,       // 기본 아이콘
-        iconHover: IconDesignOn2,   // 마우스오버 아이콘
+        iconDefault: IconDesign2,
+        iconHover: IconDesignOn2,
         title: "UX Planning",
         text: "사용자 흐름 설계 및 와이어프레임"
       },
       {
         id: 3,
-        // icon: IconDesign1, // 기존 코드 삭제
-        iconDefault: IconDesign3,       // 기본 아이콘
-        iconHover: IconDesignOn3,   // 마우스오버 아이콘
+        iconDefault: IconDesign3,
+        iconHover: IconDesignOn3,
         title: "UI Design",
         text: "디자인 시스템 구축 및 GUI 디자인"
       },
       {
         id: 4,
-        // icon: IconDesign1, // 기존 코드 삭제
-        iconDefault: IconDesign4,       // 기본 아이콘
-        iconHover: IconDesignOn4,   // 마우스오버 아이콘
+        iconDefault: IconDesign4,
+        iconHover: IconDesignOn4,
         title: "UX Prototyping",
         text: "인터랙션 정의 및 프로토타입 제작"
       },
@@ -108,11 +104,9 @@ const Process = () => {
         activeTab={activeTab}
         onTabClick={setActiveTab} />
 
-      <div className="process-cont">
+      <div className="process-cont" key={activeTab}>
         {processData[activeTab].map((item) => (
           <div className="process-card" key={item.id}>
-
-            {/* --- 3. JSX 수정: 이미지 2개를 모두 렌더링 --- */}
             <div className="icon-box">
               <img
                 src={item.iconDefault}

@@ -4,7 +4,8 @@ import PcDetail from '@/views/pc/PcDetail';
 
 // Swiper 관련 import
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Autoplay } from 'swiper/modules';
+// ★ 수정 1: Virtual 모듈을 여기서 꼭 불러와야 합니다!
+import { Navigation, Autoplay, Virtual } from 'swiper/modules';
 
 // Swiper 기본 CSS
 import 'swiper/css';
@@ -16,6 +17,7 @@ const Portfolio = () => {
   // modal
   const [selectedProject, setSelectedProject] = useState(null);
 
+  // 데이터 2배 뻥튀기 (루프가 자연스럽게 돌기 위해)
   const doubledData = [...projectData, ...projectData];
 
   const openModal = (item) => {
@@ -30,7 +32,7 @@ const Portfolio = () => {
 
   const portfolioData = doubledData.map((item, index) => ({
     ...item,
-    id: index + 1,
+    id: index + 1, // 고유 ID 생성
   }));
 
   return (
@@ -39,7 +41,6 @@ const Portfolio = () => {
       <SectionTitle
         title="Portfolio"
         showNav={true}
-        // ★ Swiper 인스턴스를 통해 앞/뒤로 이동 함수 연결
         onPrevClick={() => swiperRef.current?.slidePrev()}
         onNextClick={() => swiperRef.current?.slideNext()}
       />
@@ -47,48 +48,44 @@ const Portfolio = () => {
       <div className="portfolio-cont">
         <Swiper
           // --- Swiper 설정 ---
-          modules={[Navigation]} // 사용할 모듈 등록
-          spaceBetween={0} // 슬라이드 사이 간격 (기본)
+          modules={[Navigation, Virtual]} // Virtual 모듈 사용
+          virtual={true}             // ★ 핵심: 가상 슬라이드 활성화
+          observer={true}            
+          observeParents={true}      
+          watchSlidesProgress={true}
+          spaceBetween={0} 
           slidesPerView={'auto'}
-          centeredSlides={true} // ★ 가운데 정렬
-          loop={true} // 무한 반복
-          // autoplay={{ // (선택사항) 자동 재생
-          //   delay: 3000,
-          //   disableOnInteraction: false,
-          // }}
+          centeredSlides={true} 
+          loop={true} 
           initialSlide={2}
-          loopedSlides={8}
-          loopAdditionalSlides={5}
-          speed={500} // 슬라이드 전환 속도
-          // Swiper가 초기화될 때 인스턴스를 ref에 저장
+          // loopedSlides={8} // loop 모드일 때 넉넉하게 잡아줌
+          // loopAdditionalSlides={5}
+          speed={500} 
           onBeforeInit={(swiper) => {
             swiperRef.current = swiper;
           }}
-          // 반응형 브레이크포인트
-          // breakpoints={{
-          //   // 1024px 이상 (PC 버전)
-          //   1024: {
-          //     spaceBetween: 24, // 간격 넓힘
-          //   },
-          //   // 1440px 이상 (대형화면)
-          //   1440: {
-          //     spaceBetween: 24,
-          //   }
-          // }}
           className="portfolio-swiper"
         >
-          {portfolioData.map((item) => (
-            <SwiperSlide key={item.id} className="port-slide-item">
+          {portfolioData.map((item, index) => (
+            <SwiperSlide key={item.id} className="port-slide-item" virtualIndex={index}>
               <div className="inner-box">
                 {/* 이미지 영역 */}
                 <div className="img-box">
-                  <img src={item.image} alt={item.title} />
+                  <img
+                    src={item.image}
+                    alt={item.title}
+                    loading="lazy"
+                    decoding="async"
+                  />
                 </div>
 
                 {/* 호버 시 나타나는 오버레이 영역 */}
                 <div className="hover-overlay">
                   <div className="text-wrap">
-                    <h4>{item.title}</h4>
+                    <div className="title">
+                      <h4>{item.title}</h4>
+                      {item.category && <span className="badge">{item.category}</span>}
+                    </div>
                     <p>{item.desc}</p>
                     <button
                       className="view-btn"
@@ -105,10 +102,10 @@ const Portfolio = () => {
       </div>
 
       {/* modal */}
-      <PcDetail 
-        isOpen={!!selectedProject} 
-        onClose={closeModal} 
-        data={selectedProject} 
+      <PcDetail
+        isOpen={!!selectedProject}
+        onClose={closeModal}
+        data={selectedProject}
       />
     </section>
   );

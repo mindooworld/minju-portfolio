@@ -3,6 +3,7 @@ import Intro from '@/views/pc/sections/Intro';
 import Profile from '@/views/pc/sections/Profile';
 import Process from '@/views/pc/sections/Process';
 import Portfolio from '@/views/pc/sections/Portfolio';
+import Faq from '@/views/pc/sections/Faq';
 
 const PcHome = () => {
   return (
@@ -11,6 +12,7 @@ const PcHome = () => {
         <Profile />
         <Process />
         <Portfolio />
+        <Faq />
     </div>
   );
 };

@@ -39,7 +39,7 @@
         // 활성화된 탭 스타일
         &.active {
           background-color: $c-primary;
-          @include font3(600, $c-black);
+          @include font(600, $c-black);
           border-radius: 30px;
         }
       }
@@ -106,17 +106,34 @@
   transition: all 0.4s ease-out;
 }
 
+// dot
+.dot {
+  width: 6px;
+  height: 6px;
+  display: inline-block;
+  background-color: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+// badge
+.badge {
+  @include padding(4px, 8px);
+  border-radius: 4px;
+  @include font(14px, 500, 1, $c-white);
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
 /* --- 모달 팝업 스타일 --- */
 .modal-overlay {
   position: fixed;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: rgba(0, 0, 0, 0.8);
-  z-index: 9999; // 제일 위에 뜨게
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  
-  // 나타날 때 애니메이션 (선택)
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  z-index: 9999;
+  @include flex(center, center);
   animation: fadeIn 0.3s ease;
 
   .modal-content {
@@ -128,7 +145,8 @@
     position: relative;
     overflow-y: auto;
     overflow-y: auto;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+
     @media (max-width:1440px) {
       max-width: 1200px;
     }
@@ -136,168 +154,145 @@
     &::-webkit-scrollbar {
       display: none;
     }
+
     scrollbar-width: none;
     -ms-overflow-style: none;
-   .detail-inner {
-      display: flex;
-      gap: 40px;
-      align-items: flex-start; 
+
+    .detail-inner {
+      @include flex(flex-start, flex-start);
       position: relative;
 
       .img-area {
         flex: 1.5;
         overflow: hidden;
-        
-        // 이미지가 길~쭉하게 들어가야 스크롤하는 맛이 나겠죠?
+
         img {
           width: 100%;
           height: auto;
           display: block;
-          + img {
-            margin-bottom:20px;
+
+          +img {
+            margin-bottom: 20px;
           }
         }
       }
 
       .text-area {
         position: sticky;
-        top: 40px;
+        top: 0;
+        max-width: 420px;
+        height: 100%;
 
-        // 1. 닫기 버튼 스타일
+        @media (max-width:1440px) {
+          max-width: 328px;
+        }
+
         .close-btn {
           position: absolute;
-          top: -10px; 
-          right: 0;
+          top: 24px;
+          right: 36px;
           background: none;
           border: none;
           cursor: pointer;
-          padding: 5px;
-          
+
           img {
-            width: 24px; // 닫기 아이콘 크기
+            width: 24px;
             height: 24px;
             display: block;
             transition: transform 0.3s;
           }
+
           &:hover img {
             transform: rotate(90deg);
           }
         }
 
-        .main-title {
-          font-size: 32px;
-          font-weight: 700;
-          margin-bottom: 10px;
-          padding-right: 40px; // 버튼 공간 확보
-        }
-        .main-desc {
-          font-size: 16px;
-          color: #666;
-          margin-bottom: 40px;
-          padding-bottom: 20px;
-          border-bottom: 1px solid #eee; // 구분선
+        .title {
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          @include padding(42px, 36px, 20px, 36px);
+
+          >h3 {
+            @include font(32px, 700, 1.2, $c-white);
+            margin-bottom: 8px;
+          }
+
+          >p {
+            @include font(16px, 500, 1.2, $c-888);
+          }
         }
 
         // --- 상세 정보 섹션 스타일 ---
         .detail-info-wrap {
-          display: flex;
-          flex-direction: column;
-          gap: 30px; // 각 섹션 사이 간격
-
-          &.type-overview {
-            .content-overview {
-              display: flex;
-              flex-direction: column;
-              gap: 12px; // 1번째 줄과 2번째 줄 사이 간격
-
-              .overview-row {
-                display: flex;
-                align-items: flex-start; // 텍스트 길어지면 위쪽 정렬
-                gap: 10px; // 뱃지와 텍스트 사이 간격
-
-                // 빨간 뱃지 스타일
-                .badge.point {
-                  flex-shrink: 0; // 뱃지 너비 줄어들지 않게 고정
-                  display: inline-block;
-                  padding: 4px 10px;
-                  border-radius: 4px;
-                  background-color: #ff0000;
-                  color: #fff;
-                  font-size: 12px;
-                  font-weight: 600;
-                  min-width: 80px; // 뱃지 너비 통일 (선택사항)
-                  text-align: center;
-                  margin-top: 2px; // 텍스트랑 높이 시각적 보정
-                }
-
-                // 설명 텍스트
-                .text {
-                  font-size: 15px;
-                  color: #555;
-                  line-height: 1.5;
-                  word-break: keep-all; // 한글 단어 끊김 방지
-                }
-              }
-            }
-          }
+          @include padding(20px, 36px);
+          @include flex(flex-start, flex-start, column);
+          gap: 36px;
 
           .info-item {
-            .info-header {
-              display: flex;
-              align-items: center;
-              gap: 10px;
-              margin-bottom: 10px;
+            width: 100%;
 
-              .label {
-                font-size: 18px;
-                font-weight: 700;
-                color: #333;
-              }
-              .badge {
-                display: inline-block;
-                padding: 4px 10px;
-                border-radius: 20px;
-                background-color: #ffebeb; // 연한 빨강 배경
-                color: #ff0000;          // 빨강 글씨
-                font-size: 12px;
-                font-weight: 600;
+            .label {
+              @include font(20px, 600, 1, $c-white);
+              margin-bottom: 20px;
+            }
+
+            &.type-overview {
+              .cont {
+                @include flex(flex-start, flex-start, column);
+                gap: 12px;
+
+                .overview-row {
+                  @include flex(flex-start, center);
+                  gap: 10px;
+
+                  &:first-child {
+                    .badge {
+                      background-color: rgba(72, 236, 149, 0.1);
+                      color: $c-primary;
+                    }
+                  }
+
+                  &:last-child {
+                    .badge {
+                      background-color: rgba(59, 215, 202, 0.1);
+                      color: $c-sub-primary;
+                    }
+                  }
+
+                  .text {
+                    @include font(16px, 600, 1.2, $c-white);
+                  }
+                }
               }
             }
 
-            // 본문 텍스트 스타일
-            .info-text {
-              font-size: 15px;
-              color: #555;
-              line-height: 1.6;
+            &.type-contribution {
+              .cont {
+                width: 100%;
+                @include flex(flex-start, center);
+                flex-wrap: wrap;
+                gap: 8px;
+              }
             }
 
-            // 리스트 스타일
-            .info-list {
-              display: flex;
-              flex-wrap: wrap;
-              gap: 8px;
-              
-              li {
-                padding: 6px 14px;
-                background-color: #f5f5f5;
-                border-radius: 6px;
-                font-size: 14px;
-                color: #444;
-                // 리스트 앞에 점 같은 거 안 생기게
-                list-style: none;
+            &.type-tech {
+              >ul {
+                @include flex(flex-start, flex-start, column);
+                gap: 10px;
+
+                >li {
+                  @include flex(flex-start, flex-start);
+                  gap: 8px;
+                  @include font(14px, 400, 1.5, $c-white);
+
+                  .dot {
+                    margin-top: 8px;
+                    background-color: $c-primary;
+                  }
+                }
               }
             }
           }
         }
-      }
-    }
-    
-    // 모바일 대응
-    @media (max-width: 768px) {
-      padding: 24px;
-      .detail-inner {
-        flex-direction: column; // 위아래로 배치
-        gap: 20px;
       }
     }
   }
@@ -305,8 +300,13 @@
 
 // 페이드인 애니메이션
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 // 공통 end
@@ -394,7 +394,6 @@
         @include flex(center, center);
         width: 60px;
         height: 60px;
-        /* 높이 명시 */
         flex-shrink: 0;
 
         svg {
@@ -444,7 +443,7 @@
 .profile_wrap {
   .accordion_panel {
     width: 100%;
-    max-width: 100%; // 최대 너비 제한
+    max-width: 100%;
     background-color: $c-card-bg--1;
     border-radius: 16px;
     overflow: hidden;
@@ -489,7 +488,6 @@
           border-radius: 50%;
           overflow: hidden;
 
-
           img {
             width: 100%;
             height: 100%;
@@ -508,9 +506,9 @@
             gap: 10px;
 
             span {
-              @include padding(2px, 8px);
+              @include padding(4px, 8px);
               border-radius: 4px;
-              @include font(14px, 500);
+              @include font(14px, 500, 1);
               line-height: 18px;
 
               &:first-child {
@@ -847,6 +845,8 @@
 
     .swiper-wrapper {
       transition-timing-function: ease-out;
+      will-change: transform; // 브라우저에게 움직임을 예고
+      transform: translate3d(0, 0, 0);
     }
 
     .swiper-slide {
@@ -856,6 +856,9 @@
       aspect-ratio: 3 / 4;
       position: relative;
       padding: 0 12px;
+      backface-visibility: hidden;
+      transform: translateZ(0);
+
 
       .inner-box {
         width: 100%;
@@ -877,6 +880,8 @@
             object-fit: cover;
             filter: grayscale(100%);
             transition: filter 0.5s ease, transform 0.5s ease-out;
+            will-change: transform, opacity;
+            transform: translateZ(0);
           }
         }
 
@@ -896,15 +901,19 @@
             width: 100%;
             color: $c-white;
 
-            h4 {
-              @include font(16px, 600, 1);
+            .title {
+              @include flex(flex-start, center);
+              gap: 4px;
               margin-bottom: 8px;
+
+              h4 {
+                @include font(18px, 600, 1);
+              }
             }
 
             p {
               margin-bottom: 16px;
-              @include font(13px, 400, 1.2, $c-c2)
-              // white-space: nowrap;
+              @include font(13px, 400, 1.2, $c-c2) // white-space: nowrap;
               // overflow: hidden;
               // text-overflow: ellipsis;
             }
@@ -913,7 +922,7 @@
               display: inline-block;
               @include padding(6px, 16px);
               border-radius: 30px;
-              border:1px solid $c-primary;
+              border: 1px solid $c-primary;
               @include font(12px, 400, 1, $c-primary);
               transition: opacity 0.3s;
 
@@ -945,6 +954,106 @@
               transform: translateY(0);
             }
           }
+        }
+      }
+    }
+  }
+}
+
+// faq
+
+.faq_wrap {
+  // 컨테이너 스타일 (필요시 수정)
+  width: 100%;
+  max-width: 100%;
+
+  .faq-cont {
+    @include flex(flex-start, flex-start, column);
+    gap: 24px;
+
+    .accordion_panel {
+      border-radius: 12px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      width:100%;
+
+      // 활성화(열림) 상태 스타일
+      &.active {
+        .accordion_header {
+          .header-inner {
+            .arrow_icon {
+              transform: rotate(180deg); // 화살표 뒤집기
+            }
+          }
+        }
+      }
+
+      // [헤더 영역]
+      .accordion_header {
+        @include padding(24px, 30px);
+        cursor: pointer;
+        background-color: $c-card-bg--1;
+        transition: background-color 0.2s;
+
+        &:hover {
+          transition: all 0.3s ease;
+          opacity: 0.6;
+        }
+
+        .header-inner {
+          display: flex;
+          @include flex(space-between, center);
+
+          >h4 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #fff;
+            margin: 0;
+            line-height: 1.4;
+          }
+
+          .arrow_icon {
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease; // 화살표 회전 애니메이션
+            flex-shrink: 0; // 텍스트 길어도 화살표 찌그러짐 방지
+
+            img {
+              width: 100%;
+            }
+          }
+        }
+      }
+
+      // [바디 영역 - Grid 애니메이션]
+      .accordion_body {
+        display: grid;
+        grid-template-rows: 0fr; // 평소엔 높이 0
+        transition: grid-template-rows 0.3s ease-in-out;
+        background-color: $c-card-bg--1;
+
+        .body_inner {
+          overflow: hidden;
+          min-height: 0;
+
+          >p {
+            background-color: $c-card-bg--2;
+            border-radius: 8px;
+            @include font(14px, 400, 1.5, $c-white);
+            @include padding(16px, 20px);
+            margin:0 24px 30px 24px;
+            white-space: pre-line;
+          }
+        }
+      }
+
+      // 활성화 시 바디 열기
+      &.active {
+        .accordion_body {
+          grid-template-rows: 1fr;
         }
       }
     }

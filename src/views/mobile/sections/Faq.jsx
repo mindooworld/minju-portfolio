@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SectionTitle from '@/components/common/SectionTitle';
-import ArrowIcon from '@/assets/images/arrow-2.svg';
+import ArrowIcon from '@/assets/images/arrow-2.svg'; // 화살표 아이콘 경로 확인!
 
 const Faq = () => {
   // 현재 활성화된(열린) 질문의 ID를 저장 (초기값: null - 다 닫힘)
@@ -11,7 +11,7 @@ const Faq = () => {
     setActiveId(activeId === id ? null : id);
   };
 
-  // FAQ 데이터
+  // FAQ 데이터 (나중에 내용만 수정하시면 됩니다)
   const faqList = [
     {
       id: 1,
@@ -50,8 +50,10 @@ const Faq = () => {
             {/* 헤더: 질문 + 화살표 */}
             <div className="accordion_header" onClick={() => toggleFaq(item.id)}>
               <div className="header-inner">
+                {/* 질문 텍스트 */}
                 <h4><span>Q.</span> {item.question}</h4>
 
+                {/* 화살표 아이콘 */}
                 <span className="arrow_icon">
                   <img src={ArrowIcon} alt="토글 버튼" />
                 </span>

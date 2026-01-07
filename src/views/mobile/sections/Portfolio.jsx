@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
 import SectionTitle from '@/components/common/SectionTitle';
-import PcDetail from '@/views/pc/PcDetail';
+import MobileDetail from '@/views/mobile/MobileDetail';
 
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Virtual } from 'swiper/modules';
+import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 
 import { projectData } from '@/data/projectData';
@@ -62,15 +62,11 @@ const Portfolio = () => {
     <section className="portfolio_wrap">
       <SectionTitle
         title="Portfolio"
-        showNav
-        onPrevClick={() => swiperRef.current?.slidePrev()}
-        onNextClick={() => swiperRef.current?.slideNext()}
       />
 
       <div className="portfolio-cont">
         <Swiper
-          modules={[Navigation, Virtual]}
-          virtual
+          modules={[Navigation]}
           slidesPerView={'auto'}
           observer={true}
           observeParents={true}
@@ -78,15 +74,14 @@ const Portfolio = () => {
           speed={500}
           spaceBetween={0}
           centeredSlides={true}
-          loop={true}
-          initialSlide={2}
+          loop={false}
+          initialSlide={0}
           onBeforeInit={(swiper) => { swiperRef.current = swiper; }}
           className="portfolio-swiper"
         >
           {portfolioData.map((item, index) => (
             <SwiperSlide
               key={item.id}
-              virtualIndex={index}
               className="port-slide-item"
             >
               <div className="inner-box">
@@ -118,7 +113,7 @@ const Portfolio = () => {
       </div>
 
       {/* modal */}
-      <PcDetail
+      <MobileDetail
         isOpen={selectedIndex !== null}
         data={selectedProject}
         onClose={closeModal}

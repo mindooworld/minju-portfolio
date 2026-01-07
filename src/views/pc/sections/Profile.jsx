@@ -142,7 +142,6 @@ const Profile = () => {
               {/* about me */}
               <div className="body-cont">
                 <h3>About Me</h3>
-                {/* ★ 수정 3: class -> className */}
                 <div className="card-list">
                   {bodyCont1.map((item, index) => (
                     <div className="card" key={index}>

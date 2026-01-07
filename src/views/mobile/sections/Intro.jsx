@@ -28,6 +28,7 @@ const Intro = () => {
     };
   }, []);
 
+
   return (
     <section className="intro_wrap">
       <div className="intro-cont">

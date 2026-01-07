@@ -4,6 +4,7 @@ import Profile from '@/views/pc/sections/Profile';
 import Process from '@/views/pc/sections/Process';
 import Portfolio from '@/views/pc/sections/Portfolio';
 import Faq from '@/views/pc/sections/Faq';
+import Contact from '@/views/pc/sections/Contact';
 
 const PcHome = () => {
   return (
@@ -13,6 +14,7 @@ const PcHome = () => {
         <Process />
         <Portfolio />
         <Faq />
+        <Contact />
     </div>
   );
 };

@@ -1,0 +1,1004 @@
+// src/styles/mo-index.scss
+@use "@/styles/_variables.scss" as *;
+@use "@/styles/_mixins.scss" as *;
+
+// 공통
+
+.mo-wrap {
+  // 공통
+
+  // layout
+  .layout {
+    width: 100%;
+    @include px(24px);
+    padding-top: 40px;
+  }
+
+  .box-cont {
+    width: 100%;
+    max-width: 100%;
+    background-color: $c-card-bg--1;
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+
+    .cont {
+      width: 100%;
+      @include padding(16px, 20px);
+    }
+  }
+
+  // badge
+  .badge {
+    @include padding(2px, 8px);
+    border-radius: 4px;
+    // 12px -> 0.75rem
+    @include font(0.75rem, 500, 1, $c-white);
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  // Title
+  .section-title {
+    text-align: left;
+    margin-bottom: 16px;
+
+    h3 {
+      // 20px -> 1.25rem
+      @include font(1.25rem, 600, 1.2, $c-white);
+    }
+
+    .title-row {
+      gap: 30px;
+      margin-bottom: 16px;
+
+      // tab
+      .tab-buttons {
+        margin-top: 16px;
+        display: flex;
+        border-radius: 30px;
+        background-color: #42444B;
+
+        .tab-btn {
+          flex: 1;
+          height: 36px;
+          max-height: 36px;
+          // 16px -> 1rem
+          @include font(1rem, 400, 1, $c-c2);
+          cursor: pointer;
+          transition: all 0.4s;
+
+          // 활성화된 탭 스타일
+          &.active {
+            background-color: $c-primary;
+            font-weight: 700;
+            color: $c-black;
+            border-radius: 30px;
+          }
+        }
+      }
+    }
+  }
+
+  // modal
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    z-index: 9999;
+    @include flex(center, center);
+    animation: fadeIn 0.3s ease;
+    padding: 0;
+
+    // ★ [추가 1] 닫힐 때 배경이 부드럽게 사라지게 설정
+    transition: opacity 0.5s ease;
+
+    &.closing {
+      opacity: 0; // 배경 투명하게
+
+      .modal-cont {
+        // 내용은 아래로 쑥 내려가게
+        transform: translateY(100%);
+      }
+    }
+
+    .modal-cont {
+      width: 100%;
+      height: 100%;
+      background-color: $c-card-bg--1;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+
+      // ★ [추가 3] 이동 애니메이션을 위한 트랜지션 설정
+      transition: transform 0.5s cubic-bezier(0.5, 0, 0, 1); // 쑥 내려가는 느낌의 커브
+      transform: translateY(0); // 기본 위치
+
+      .detail-inner {
+        flex: 1;
+        position: relative;
+        overflow: hidden;
+
+        // --- 공통 버튼 스타일 (닫기, 이전, 다음) ---
+        // 닫기 버튼, 네비 버튼 모두 비슷한 스타일을 공유하므로 믹스인이나 공통 속성 활용 가능
+        // 여기서는 각각 명시적으로 작성합니다.
+
+        // 1. 닫기 버튼 (우측 상단)
+        .close-btn {
+          position: absolute;
+          top: 16px;
+          right: 24px;
+          z-index: 50; // 이미지 위에 뜸
+
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background-color: rgba(0, 0, 0, 0.4); // 반투명 배경
+          @include flex(center, center);
+          cursor: pointer;
+          backdrop-filter: blur(4px);
+
+          img {
+            width: 20px;
+            height: 20px;
+            filter: brightness(0) invert(1);
+            display: block;
+          }
+        }
+
+        // ★ 2. 네비게이션 버튼 (좌우 중앙)
+        .nav-btn {
+          position: absolute;
+          top: 50%; // 수직 중앙
+          transform: translateY(-50%); // 정확한 중앙 보정
+          z-index: 50; // 이미지 위에 뜸 (바텀시트 열리면 가려질 수 있음 - 의도됨)
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          background-color: rgba(0, 0, 0, 0.4);
+          @include flex(center, center);
+          cursor: pointer;
+          backdrop-filter: blur(4px);
+
+          img {
+            width: 16px;
+            height: 16px; // 아이콘 크기
+            filter: brightness(0) invert(1); // 흰색으로 변경
+            display: block;
+          }
+
+          // 왼쪽 버튼 (이전)
+          &.prev {
+            left: 10px;
+
+            // 화살표 아이콘이 오른쪽을 보고 있다면 180도 회전, 왼쪽 보고 있으면 0도
+            // (보통 아이콘은 오른쪽 화살표가 기준인 경우가 많음)
+            img {
+              transform: rotate(90deg);
+            }
+
+            // 필요 시 각도 조절
+          }
+
+          // 오른쪽 버튼 (다음)
+          &.next {
+            right: 10px;
+
+            img {
+              transform: rotate(-90deg);
+            }
+          }
+
+          &:active {
+            background-color: rgba(0, 0, 0, 0.8); // 터치 시 더 어둡게
+          }
+        }
+
+        // 3. 이미지 영역
+        .img-area {
+          width: 100%;
+          height: 100%;
+          overflow-y: auto;
+          background-color: $c-bg;
+
+          // 바텀 시트 핸들바 높이만큼 여백 확보
+          padding-bottom: 130px;
+
+          // Flex 중앙 정렬 대체 (가상요소 활용)
+          display: flex;
+          flex-direction: column;
+
+          &::before,
+          &::after {
+            content: '';
+            display: block;
+            margin: auto;
+          }
+
+          // 스크롤바 숨김
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+
+          &::-webkit-scrollbar {
+            display: none;
+          }
+
+          img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+            flex-shrink: 0;
+            animation: imageFadeIn 0.4s ease-out;
+
+            +img {
+              margin-top: 4px;
+            }
+          }
+        }
+
+        // 4. 텍스트 영역 (바텀 시트)
+        .text-area {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 60vh;
+          background-color: $c-card-bg--1;
+          z-index: 60; // 버튼들보다 위에 와야 함 (확장 시 버튼 가리기 위함)
+
+          display: flex;
+          flex-direction: column;
+
+          // 디자인
+          border-top-left-radius: 20px;
+          border-top-right-radius: 20px;
+          box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1), 0 2px 0 $c-card-bg--1;
+
+          // 초기 상태: 110px 노출
+          transform: translateY(calc(100% - 110px));
+          transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+
+          &.is-expanded {
+            transform: translateY(0);
+          }
+
+          // 핸들바
+          .drag-handle-area {
+            width: 100%;
+            height: 30px;
+            @include flex(center, center);
+            flex-shrink: 0;
+            cursor: pointer;
+            padding-top: 10px;
+
+            .drag-handle-bar {
+              width: 40px;
+              height: 5px;
+              background-color: rgba(255, 255, 255, 0.2);
+              border-radius: 10px;
+            }
+          }
+
+          // 타이틀
+          .title {
+            flex-shrink: 0;
+            @include padding(10px, 20px, 20px, 20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background-color: $c-card-bg--1;
+
+            >h3 {
+              @include font(22px, 700, 1.3, $c-white);
+              margin-bottom: 8px;
+            }
+
+            >p {
+              @include font(14px, 500, 1.4, $c-888);
+            }
+          }
+
+          // 내용 (스크롤)
+          .detail-info-wrap {
+            flex: 1;
+            overflow-y: auto;
+            @include padding(24px, 20px);
+            @include flex(flex-start, flex-start, column);
+            gap: 32px;
+            padding-bottom: 40px;
+
+            &::-webkit-scrollbar {
+              width: 4px;
+            }
+
+            &::-webkit-scrollbar-thumb {
+              background-color: rgba(255, 255, 255, 0.3);
+              border-radius: 4px;
+            }
+
+            &::-webkit-scrollbar-track {
+              background-color: transparent;
+            }
+
+            .info-item {
+              width: 100%;
+
+              .label {
+                @include font(18px, 600, 1, $c-white);
+                margin-bottom: 16px;
+              }
+
+              &.type-overview .cont {
+                @include flex(flex-start, flex-start, column);
+                gap: 12px;
+
+                .overview-row {
+                  @include flex(flex-start, flex-start);
+                  gap: 10px;
+
+                  .text {
+                    @include font(15px, 400, 1.4, $c-white);
+                    word-break: keep-all;
+                  }
+                }
+              }
+
+              &.type-contribution .cont {
+                @include flex(flex-start, center);
+                flex-wrap: wrap;
+                gap: 8px;
+              }
+
+              &.type-tech>ul {
+                @include flex(flex-start, flex-start, column);
+                gap: 10px;
+
+                li {
+                  @include font(14px, 400, 1.5, $c-white);
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  // ★ [추가] 이미지 페이드인 애니메이션
+  @keyframes imageFadeIn {
+    from {
+      opacity: 0;
+      transform: scale(0.98); // 살짝 작았다가 커지는 느낌 (고급스러움)
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  // 공통 end
+
+
+  // Intro
+
+  .intro_wrap {
+    width: 100%;
+    @include px(24px);
+    position: relative;
+    @include flex(flex-start, center);
+    @include py(60px);
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
+
+      background: linear-gradient(-45deg, #48ec95, #3bd7ca, #48ec95);
+      background-size: 400% 400%;
+      animation: gradientFlow 8s ease infinite;
+    }
+
+    .intro-cont {
+      width: 100%;
+
+      .intro_inner {
+        text-align: left;
+        color: $c-black;
+        z-index: 10;
+        @include flex(center, flex-start, column);
+        margin-bottom: 40px;
+
+        .text_box {
+          margin-bottom: 24px;
+
+          .main_title {
+            // 36px -> 2.25rem
+            @include font(2.25rem, 900, 1.2, $c-black);
+            text-align: left;
+            line-height: 0.98;
+          }
+        }
+
+        .badge_box {
+          @include flex(flex-start, center);
+          flex-wrap: wrap;
+          width: 70vw;
+          gap: 6px;
+
+          .badge {
+            @include padding(4px, 10px);
+            background: $c-black;
+            border-radius: 50px;
+            // 14px -> 0.875rem
+            @include font(0.875rem, 500, 1.5, $c-white);
+          }
+        }
+      }
+
+      // git 버튼
+      .git-nav-wrapper {
+        width: auto;
+        z-index: 1000;
+        transition: backdrop-filter 0.4s, background 0.4s;
+
+        .nav-inner {
+          padding: 0;
+          transition: all 0.4s ease;
+
+          .git_btn {
+            @include flex(center, center);
+            background: $c-white;
+            color: $c-black;
+            border-radius: 30px;
+            outline: none;
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 0.8;
+            @include padding(4px);
+
+            .btn_text {
+              // 16px -> 1rem
+              @include font(1rem, 600, 1, inherit);
+            }
+
+            .btn_icon {
+              width: 24px;
+              height: 24px;
+              flex-shrink: 0;
+            }
+
+            .arrow-icon {
+              width: 24px;
+              height: 24px;
+            }
+          }
+        }
+
+        // 스크롤 내려서 고정되었을 때
+        &.fixed-nav {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: auto;
+          width: 100%;
+          height: 60px;
+          background: rgba(255, 255, 255, 0.1);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+          box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+          animation: slideDown 0.4s ease forwards;
+          @include flex(flex-start, center);
+          padding-left: 24px;
+          z-index: 1000;
+        }
+      }
+    }
+  }
+
+  @keyframes gradientFlow {
+    0% {
+      background-position: 0% 50%;
+    }
+
+    50% {
+      background-position: 100% 50%;
+    }
+
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+
+  // Profile
+
+  .profile_wrap {
+    .profile-cont {
+      width: 100%;
+      @include flex(flex-start, flex-start, column);
+      gap: 16px;
+
+      // 윗쪽 영역
+      .left_box {
+        @include flex(flex-start, center);
+        gap: 16px;
+
+        .img_area {
+          width: 56px;
+          height: 56px;
+          border-radius: 50%;
+          overflow: hidden;
+
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+        }
+
+        .info_text {
+          h3 {
+            // 18px -> 1.125rem
+            @include font(1.125rem, 700, 1.2, $c-white);
+            margin-bottom: 8px;
+          }
+
+          .badges {
+            @include flex(flex-start, center);
+            gap: 10px;
+
+            span {
+              @include padding(4px, 8px);
+              border-radius: 4px;
+              // 12px -> 0.75rem
+              @include font(0.75rem, 500, 1, $c-white);
+              background-color: rgba(255, 255, 255, 0.1);
+
+              &:first-child {
+                background-color: rgba(72, 236, 149, 0.1);
+                color: $c-primary;
+              }
+
+              &:last-child {
+                background-color: rgba(59, 215, 202, 0.1);
+                color: $c-sub-primary;
+              }
+            }
+          }
+        }
+      }
+
+      // 정보 리스트(DL)
+      .center_box {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        width: 100%;
+        padding-top: 16px;
+
+        dl {
+          @include flex(flex-start, flex-start, column);
+          gap: 8px;
+
+          .row {
+            @include flex(space-between, center);
+            width: 100%;
+
+            dt {
+              // 13px -> 0.8125rem
+              @include font(0.8125rem, 500, 1.2, $c-c2);
+            }
+
+            dd {
+              // 13px -> 0.8125rem
+              @include font(0.8125rem, 600, 1.2, $c-white);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // About me
+  .about_wrap {
+    &.layout {
+      padding: 0;
+    }
+
+    .section-title {
+      @include px(24px);
+      padding-top: 40px;
+    }
+
+    .about_contents {
+      width: 100%;
+      overflow: hidden;
+
+      .about-swiper {
+        @include px(24px);
+      }
+
+      .swiper-slide {
+        height: auto;
+        display: flex;
+
+        .card {
+          width: 100%;
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          text-align: left;
+
+          // 아이콘
+          .icon {
+            width: 32px;
+            height: 32px;
+            margin-bottom: 16px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.1);
+            @include flex(center, center);
+
+            img {
+              width: 16px;
+              height: auto;
+            }
+          }
+
+          h4 {
+            // 16px -> 1rem
+            @include font(1rem, 700, 1, $c-white);
+            margin-bottom: 12px;
+          }
+
+          p {
+            // 13px -> 0.8125rem
+            @include font(0.8125rem, 400, 1.5, $c-white);
+          }
+        }
+      }
+    }
+  }
+
+  // Skills
+  .skills_wrap {
+    .skills-cont {
+      .skills-grid {
+        @include flex(flex-start, center, column);
+        gap: 16px;
+        width: 100%;
+
+        .skill-group-box {
+          width: 100%;
+
+          h4 {
+            // 16px -> 1rem
+            @include font(1rem, 500, 1, $c-c2);
+            margin-bottom: 16px;
+          }
+
+          .group-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+
+            .box-cont {
+              .cont {
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+
+                .tit {
+                  @include flex(flex-start, center);
+                  gap: 8px;
+                }
+
+                .icon {
+                  @include flex(center, center);
+                  width: 24px;
+                  height: 24px;
+                  border-radius: 50%;
+                  background-color: $c-white;
+
+                  img {
+                    width: 16px;
+                    height: 16px;
+                  }
+                }
+
+                .label {
+                  // 14px -> 0.875rem
+                  @include font(0.875rem, 600, 1.2, $c-white);
+                }
+
+                .percent-num {
+                  // 16px -> 1rem
+                  font-size: 1rem;
+                }
+              }
+
+              .bar-track {
+                width: 100%;
+                height: 8px;
+                background-color: #686C79;
+                border-radius: 12px;
+                overflow: hidden;
+
+                .bar-fill {
+                  height: 100%;
+                  background-color: $c-primary;
+                  border-radius: 10px;
+                  transition: width 1.5s cubic-bezier(0.22, 0.61, 0.36, 1);
+
+                  &.design {
+                    background-color: $c-sub-primary;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Work process
+  .process_wrap {
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+
+    .section-title {
+      position: relative;
+      z-index: 50 !important;
+    }
+
+    .process-cont {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      position: relative;
+      z-index: 10;
+      min-height: 212px;
+
+      .process-swiper {
+        width: 100%;
+        overflow: visible;
+        flex-shrink: 0;
+
+        .swiper-slide {
+          opacity: 0 !important;
+
+          &.swiper-slide-active {
+            opacity: 1 !important;
+            z-index: 10;
+          }
+
+          &.swiper-slide-next {
+            opacity: 1 !important;
+            z-index: 5;
+          }
+        }
+
+        .process-card {
+          border-radius: 16px;
+          background-color: $c-card-bg--1;
+          @include flex(flex-start, center);
+          @include px(20px);
+
+          .card-inner {
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 12px;
+
+            .icon-box {
+              width: 32px;
+              height: 32px;
+              margin-bottom: 10px;
+              @include flex(center, center);
+
+              img {
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+                animation: float 2s ease-in-out infinite;
+              }
+            }
+
+            h4 {
+              // 18px -> 1.125rem
+              @include font(1.125rem, 700, 1.2, $c-white);
+            }
+
+            p {
+              // 14px -> 0.875rem
+              @include font(0.875rem, 400, 1.5, $c-white);
+              word-break: keep-all;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @keyframes float {
+    0% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-10px);
+    }
+
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  // Portfolio
+  .portfolio_wrap {
+
+    .section-title {
+      @include px(24px);
+      padding-top: 40px;
+    }
+
+    .portfolio-cont {
+      overflow: hidden;
+    }
+
+    .portfolio-swiper {
+      padding: 30px 0;
+      overflow: visible;
+
+      .swiper-wrapper {
+        transition-timing-function: ease-out;
+        // will-change: transform;
+        transform: translate3d(0, 0, 0);
+      }
+
+      .swiper-slide {
+        width: 85vw; // 기존 80vw -> 85vw
+
+        // ★ [수정 2] 여기가 핵심! 최대 너비 제한을 확 늘려줍니다.
+        max-width: 22rem;
+        aspect-ratio: 3 / 4;
+        position: relative;
+        padding: 0 0.5rem;
+        backface-visibility: hidden;
+        transform: translateZ(0);
+
+        .inner-box {
+          width: 100%;
+          height: 100%;
+          border-radius: 1.25rem;
+          overflow: hidden;
+          position: relative;
+
+          // 평소(비활성 카드) 스타일
+          transform: scale(0.9);
+          opacity: 0.6;
+          transform-origin: center center;
+          transition: all 0.4s ease-out;
+          box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+
+          .img-box {
+            width: 100%;
+            height: 100%; // 텍스트가 가리는 만큼 이미지 높이를 조절하거나 그대로 둠
+
+            // ★ [핵심 1] 이미지 클릭 방지 (스와이프 오작동 해결)
+            // 이미지를 눌러도 클릭 이벤트가 발생하지 않고 스와이프만 먹힙니다.
+            pointer-events: none;
+
+            img {
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
+              filter: grayscale(100%);
+              transition: filter 0.5s ease;
+            }
+          }
+
+          // ★ [핵심 2] 텍스트 정보창 항상 노출
+          .hover-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: $c-card-bg--1; // 배경색 유지
+            @include padding(16px, 20px);
+
+            // 기존 translateY(100%) 삭제 -> 항상 보이게 설정
+            transform: translateY(0);
+
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            text-align: left;
+
+            // 텍스트 위로 이미지가 덮이지 않도록 z-index 설정
+            z-index: 5;
+
+            .text-wrap {
+              width: 100%;
+              color: $c-white;
+
+              .title {
+                @include flex(flex-start, center);
+                gap: 4px;
+                margin-bottom: 8px;
+
+                h4 {
+                  @include font(18px, 600, 1);
+                }
+              }
+
+              p {
+                margin-bottom: 16px;
+                @include font(13px, 400, 1.2, $c-c2);
+
+                // (선택사항) 설명글이 너무 길면 말줄임표 처리
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                width: 100%;
+              }
+
+              .view-btn {
+                display: inline-block;
+                @include padding(6px, 16px);
+                border-radius: 30px;
+                border: 1px solid $c-primary;
+                @include font(12px, 400, 1, $c-primary);
+                transition: opacity 0.3s;
+                background: transparent; // 버튼 배경
+
+                // ★ [핵심 3] 버튼만 클릭 가능하게 설정!
+                pointer-events: auto;
+                cursor: pointer;
+
+                &:hover {
+                  opacity: 0.8;
+                }
+              }
+            }
+          }
+        }
+
+        // 활성화된(가운데) 슬라이드 스타일
+        &.swiper-slide-active {
+          z-index: 10;
+
+          .inner-box {
+            transform: scale(1.1); // 크기 확대
+            opacity: 1; // 불투명하게
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+
+            .img-box img {
+              filter: grayscale(0%); // 컬러로 변경
+            }
+
+            // 호버 관련 코드는 이제 필요 없으므로 삭제!
+          }
+        }
+      }
+    }
+  }
+}

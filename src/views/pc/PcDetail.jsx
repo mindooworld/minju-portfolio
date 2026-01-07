@@ -1,12 +1,12 @@
 import React from 'react';
 import CloseIcon from '@/assets/images/close-icon.svg';
 
-const PcDetail = ({ isOpen, onClose, data }) => {
+const PcDetail = ({ isOpen, onClose, onPrev, onNext, data }) => {
   if (!isOpen || !data) return null;
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      <div className="modal-cont" onClick={(e) => e.stopPropagation()}>
 
         <div className="detail-inner">
           {/* 왼쪽 이미지 영역 */}
@@ -63,6 +63,16 @@ const PcDetail = ({ isOpen, onClose, data }) => {
                   )}
                 </div>
               ))}
+            </div>
+
+            {/* 하단 버튼 */}
+            <div className="modal-fixed-actions">
+              <button className="btn grey" onClick={onPrev}>
+                이전
+              </button>
+              <button className="btn" onClick={onNext}>
+                다음
+              </button>
             </div>
           </div>
         </div>

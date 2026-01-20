@@ -1,4 +1,4 @@
-// src/views/pc/sections/Contact.jsx
+// src/views/mobile/sections/Contact.jsx
 import React, { useState } from 'react';
 import ArrowIcon from '@/assets/images/arrow.svg';
 import SectionTitle from '@/components/common/SectionTitle';

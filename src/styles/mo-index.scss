@@ -1001,4 +1001,147 @@
       }
     }
   }
+  // faq
+
+  .faq_wrap {
+    // 컨테이너 스타일 (필요시 수정)
+    width: 100%;
+    max-width: 100%;
+
+    .faq-cont {
+      @include flex(flex-start, flex-start, column);
+      gap: 24px;
+
+      .accordion_panel {
+        border-radius: 12px;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        width: 100%;
+
+        // 활성화(열림) 상태 스타일
+        &.active {
+          .accordion_header {
+            .header-inner {
+              .arrow_icon {
+                transform: rotate(180deg);
+              }
+            }
+          }
+        }
+
+        // [헤더 영역]
+        .accordion_header {
+          @include padding(24px, 30px);
+          cursor: pointer;
+          background-color: $c-card-bg--1;
+          transition: background-color 0.2s;
+
+          .header-inner {
+            display: flex;
+            @include flex(space-between, center);
+
+            >h4 {
+              @include font(18px, 600, 1, $c-white);
+              margin: 0;
+
+              @media (max-width:1300px) {
+                font-size: 16px;
+              }
+
+              >span {
+                color: $c-primary;
+              }
+            }
+
+            .arrow_icon {
+              width: 24px;
+              height: 24px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              transition: transform 0.3s ease;
+              flex-shrink: 0;
+
+              img {
+                width: 100%;
+              }
+            }
+          }
+        }
+
+        // [바디 영역 - Grid 애니메이션]
+        .accordion_body {
+          display: grid;
+          grid-template-rows: 0fr; // 평소엔 높이 0
+          transition: grid-template-rows 0.3s ease-in-out;
+          background-color: $c-card-bg--1;
+
+          .body_inner {
+            overflow: hidden;
+            min-height: 0;
+
+            >p {
+              background-color: $c-card-bg--2;
+              border-radius: 8px;
+              @include font(14px, 400, 1.5, $c-white);
+              @include padding(16px, 20px);
+              margin: 0 24px 30px 24px;
+              white-space: pre-line;
+            }
+          }
+        }
+
+        // 활성화 시 바디 열기
+        &.active {
+          .accordion_body {
+            grid-template-rows: 1fr;
+          }
+        }
+      }
+    }
+  }
+  // Contact
+
+  .contact_wrap {
+    padding-bottom: 80px;
+
+    .contact-cont {
+      .contact-inner {
+        h4 {
+          @include font(56px, 700, 1.2, $c-primary);
+          margin-bottom: 20px;
+
+          @media (max-width:1440px) {
+            font-size: 48px;
+            margin-bottom: 12px;
+          }
+        }
+
+        p {
+          @include font(24px, 500, 1.5, $c-white);
+          margin-bottom: 40px;
+
+          @media (max-width:1440px) {
+            font-size: 18px;
+          }
+        }
+
+        .btn {
+          @media (min-width:1440px) {
+            @include px(30px);
+            height: 50px;
+
+            .txt {
+              font-size: 18px;
+            }
+
+            .arrow-icon {
+              width: 32px;
+              height: 32px;
+            }
+          }
+        }
+      }
+    }
+  }
 }

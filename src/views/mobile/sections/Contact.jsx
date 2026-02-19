@@ -1,18 +1,15 @@
-// src/views/mobile/sections/Contact.jsx
 import React, { useState } from 'react';
 import ArrowIcon from '@/assets/images/arrow.svg';
 import SectionTitle from '@/components/common/SectionTitle';
 
 const Contact = () => {
-  // 모달 열림/닫힘 상태 관리
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // 복사 기능 함수
   const handleCopy = async (text) => {
     try {
       await navigator.clipboard.writeText(text);
       alert('클립보드에 복사되었습니다.');
-    // eslint-disable-next-line no-unused-vars
+      // eslint-disable-next-line no-unused-vars
     } catch (err) {
       alert('복사에 실패했습니다.');
     }
@@ -30,7 +27,6 @@ const Contact = () => {
             <br />준비된 디퍼블리셔 신민주와 함께 성공적인 프로젝트를 시작하세요.
           </p>
 
-          {/* 버튼 클릭 시 모달 열기 */}
           <button type="button" className="btn" onClick={() => setIsModalOpen(true)}>
             <span className="txt">View Contact</span>
             <img src={ArrowIcon} alt="화살표" className="arrow-icon" />
@@ -38,7 +34,6 @@ const Contact = () => {
         </div>
       </div>
 
-      {/* --- 연락처 모달 (isModalOpen이 true일 때만 렌더링) --- */}
       {isModalOpen && (
         <div className="confirm-modal">
           <div className="modal-cont">
@@ -49,39 +44,31 @@ const Contact = () => {
               <div className="info-item">
                 <span className="label">Email</span>
                 <div className="value-box">
-                  <span className="text">mindooworld@naver.com</span>
+                  <a href="mailto:mindooworld@naver.com" className="text">mindooworld@naver.com</a>
                   <button
                     className="copy-btn"
-                    onClick={() => handleCopy('shinminju@example.com')}
+                    onClick={() => handleCopy('mindooworld@naver.com')}
                   >
                     복사
                   </button>
                 </div>
               </div>
 
-              {/* 전화번호 */}
+              {/* 전화번호 - 문자, 전화, 복사 버튼 나란히 배치 */}
               <div className="info-item">
                 <span className="label">Phone</span>
                 <div className="value-box">
-                  <span className="text">010-4321-7237</span>
-                  <button
-                    className="copy-btn"
-                    onClick={() => handleCopy('010-1234-5678')}
-                  >
-                    복사
-                  </button>
+                  <a href="tel:010-4321-7237" className="text">010-4321-7237</a>
+                  <div className="btn-group" style={{ display: 'flex', gap: '4px' }}>
+                    <a href="tel:010-4321-7237" className="copy-btn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none' }}>전화</a>
+                    <a href="sms:010-4321-7237" className="copy-btn" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', textDecoration: 'none' }}>문자</a>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* 하단 확인(닫기) 버튼 */}
             <div className="modal-actions">
-              <button
-                className="btn"
-                onClick={() => setIsModalOpen(false)}
-              >
-                확인
-              </button>
+              <button className="btn" onClick={() => setIsModalOpen(false)}>확인</button>
             </div>
           </div>
         </div>

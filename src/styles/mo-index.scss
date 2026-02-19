@@ -490,37 +490,48 @@
           }
 
           .value-box {
-            width: 100%;
-            min-height: 44px;
-            @include flex(space-between, center);
-            background-color: $c-card-bg--2;
-            @include padding(8px, 12px, 8px, 16px);
-            border-radius: 30px;
+  width: 100%;
+  @include flex(space-between, center);
+  background-color: $c-card-bg--2;
+  @include padding(10px, 12px, 10px, 20px);
+  border-radius: 30px;
 
-            .text {
-              @include font(14px, 600, 1.2, $c-white);
-              word-break: break-all; // 긴 텍스트 깨짐 방지
-            }
+  .text {
+    @include font(16px, 600, 1, $c-white);
+    text-decoration: none; // 링크 밑줄 제거
+    
+    body.light-mode & {
+      color: $l-text-main !important;
+    }
+  }
 
-            .copy-btn {
-              flex-shrink: 0;
-              font-size: 11px;
-              font-weight: 600;
-              color: $c-primary;
-              border: 1px solid $c-primary;
-              padding: 6px 8px;
-              min-width: 44px;
-              height: 28px;
-              border-radius: 30px;
-              cursor: pointer;
-              @include flex(center, center);
+  .btn-group {
+    display: flex;
+    gap: 6px; // 버튼 사이 간격
+  }
 
-              &:active {
-                // 모바일은 hover보다 active 반응이 중요
-                background-color: rgba($c-primary, 0.1);
-              }
-            }
-          }
+  .copy-btn {
+    font-size: 11px; // 글자가 많아졌으므로 살짝 조정
+    color: $c-primary;
+    border: 1px solid $c-primary;
+    padding: 4px 8px;
+    min-width: 42px; // 버튼 크기 균일화
+    height: 32px;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: transparent;
+
+    &:hover {
+      opacity: 0.6;
+      background: rgba($c-primary, 0.1);
+    }
+    
+    body.light-mode & {
+      background: transparent;
+    }
+  }
+}
         }
       }
 

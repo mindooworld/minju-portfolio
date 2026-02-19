@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import SectionTitle from '@/components/common/SectionTitle';
-import ArrowIcon from '@/assets/images/arrow-2.svg'; // 화살표 아이콘 경로 확인!
+import ArrowIcon from '@/assets/images/arrow-2.svg';
 
 const Faq = () => {
   // 현재 활성화된(열린) 질문의 ID를 저장 (초기값: null - 다 닫힘)
@@ -11,7 +11,6 @@ const Faq = () => {
     setActiveId(activeId === id ? null : id);
   };
 
-  // FAQ 데이터 (나중에 내용만 수정하시면 됩니다)
   const faqList = [
     {
       id: 1,

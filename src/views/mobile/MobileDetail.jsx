@@ -12,6 +12,7 @@ const MobileDetail = ({ isOpen, onClose, onPrev, onNext, data }) => {
 
   useEffect(() => {
     if (isOpen) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsExpanded(false);
       setIsClosing(false); // 열릴 땐 닫힘 상태 초기화
     }

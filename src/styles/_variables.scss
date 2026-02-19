@@ -21,3 +21,12 @@ $mo-padding: 20px;      // 모바일 좌우 여백 (국룰)
 
 // 4. Z-index (층계)
 $z-modal: 999;          // 팝업
+
+// --- Light Mode Colors ---
+$l-bg: #eeeff1;            // 메인 배경 (연한 그레이/화이트)
+$l-card-bg--1: #ffffff;    // 카드 배경 1 (순수 화이트)
+$l-card-bg--2: #f1f3f5;    // 카드 배경 2 (내부 요소용 연한 그레이)
+$l-text-main: #1a1b1e;     // 메인 텍스트 (다크 그레이)
+$l-text-sub: #495057;      // 서브 텍스트
+$l-text-muted: #adb5bd;    // 비활성화/설명 텍스트
+$l-border: rgba(0, 0, 0, 0.06); // 경계선
